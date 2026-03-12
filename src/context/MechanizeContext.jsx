@@ -135,29 +135,36 @@ export function MechanizeProvider({ children }) {
         publishMessage(cmdTopic(index), JSON.stringify({ action: 'start', strip: index + 1 }));
     }, [state.buttons, state.activeButton]);
 
-    // MQTT setup
+    // MQTT setup — wrapped in try-catch to prevent crash if broker URL is invalid
     useEffect(() => {
-        connectMqtt();
+        let unsubConnection = () => {};
+        let unsubs = [];
 
-        const unsubConnection = onConnectionChange((connected) => {
-            dispatch({ type: 'SET_MQTT_CONNECTED', connected });
-        });
+        try {
+            connectMqtt();
 
-        // Subscribe to all dashboard topics
-        const unsubs = SUBSCRIBE_TOPICS.map(topic =>
-            subscribeTopic(topic, (t, message) => {
-                try {
-                    handleMqttMessage(t, message, dispatch, showStatus);
-                } catch (e) {
-                    console.error('[MQTT] Error handling message:', e);
-                }
-            })
-        );
+            unsubConnection = onConnectionChange((connected) => {
+                dispatch({ type: 'SET_MQTT_CONNECTED', connected });
+            });
+
+            // Subscribe to all dashboard topics
+            unsubs = SUBSCRIBE_TOPICS.map(topic =>
+                subscribeTopic(topic, (t, message) => {
+                    try {
+                        handleMqttMessage(t, message, dispatch, showStatus);
+                    } catch (e) {
+                        console.error('[MQTT] Error handling message:', e);
+                    }
+                })
+            );
+        } catch (e) {
+            console.warn('[MQTT] Failed to initialize:', e.message);
+        }
 
         return () => {
             unsubConnection();
             unsubs.forEach(unsub => unsub());
-            disconnectMqtt();
+            try { disconnectMqtt(); } catch (e) { /* ignore */ }
         };
     }, [showStatus]);
 
