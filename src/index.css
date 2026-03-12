@@ -1,0 +1,762 @@
+/* =====================================================
+   MECHANIZED 26 — Viking / Norse Design System
+   ===================================================== */
+
+:root {
+  /* Stone & Fire Colors */
+  --bg-dark-stone: #0d0b0a;
+  --bg-stone: #1a1613;
+  --bg-stone-mid: #2a2420;
+  --bg-stone-light: #3a332d;
+  --bg-card: rgba(26, 22, 19, 0.85);
+
+  --fire-core: #ff6600;
+  --fire-bright: #ff9500;
+  --fire-ember: #ff4400;
+  --fire-dim: #c44400;
+  --fire-glow: rgba(255, 102, 0, 0.4);
+
+  --bronze: #cd7f32;
+  --bronze-light: #daa06d;
+  --bronze-dark: #8a5620;
+  --iron: #71706e;
+  --iron-light: #9a9896;
+  --gold-rune: #ffd700;
+  --rune-glow: rgba(255, 215, 0, 0.6);
+
+  --text-primary: #e8dcc8;
+  --text-secondary: rgba(232, 220, 200, 0.5);
+  --text-dim: rgba(232, 220, 200, 0.25);
+  --text-rune: #ffa94d;
+
+  /* Rune colors per button */
+  --rune-1: #ff6b00;
+  --rune-2: #ff4444;
+  --rune-3: #ffaa00;
+  --rune-4: #44cc44;
+  --rune-5: #6699ff;
+  --rune-6: #cc44ff;
+  --rune-7: #ff4488;
+  --rune-8: #44dddd;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 5rem;
+
+  /* Typography */
+  --font-display: 'Cinzel Decorative', 'MedievalSharp', serif;
+  --font-heading: 'Cinzel', serif;
+  --font-body: 'Cinzel', serif;
+
+  /* Borders */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 600ms ease;
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-dark-stone);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  /* Subtle stone texture via gradients */
+  background-image:
+    radial-gradient(ellipse at 30% 20%, rgba(255, 102, 0, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(255, 68, 0, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(42, 36, 32, 0.5) 0%, transparent 80%),
+    repeating-conic-gradient(rgba(255, 255, 255, 0.008) 0deg 1deg,
+      transparent 1deg 3deg);
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* =====================================================
+   Animations
+   ===================================================== */
+
+@keyframes fire-pulse {
+
+  0%,
+  100% {
+    text-shadow:
+      0 0 10px rgba(255, 102, 0, 0.4),
+      0 0 30px rgba(255, 68, 0, 0.2),
+      0 0 60px rgba(255, 68, 0, 0.1);
+  }
+
+  50% {
+    text-shadow:
+      0 0 15px rgba(255, 149, 0, 0.6),
+      0 0 40px rgba(255, 102, 0, 0.3),
+      0 0 80px rgba(255, 68, 0, 0.2),
+      0 0 120px rgba(255, 68, 0, 0.08);
+  }
+}
+
+@keyframes rune-glow-idle {
+
+  0%,
+  100% {
+    text-shadow:
+      0 0 4px rgba(255, 215, 0, 0.3),
+      0 0 12px rgba(255, 149, 0, 0.15);
+    filter: brightness(1);
+  }
+
+  50% {
+    text-shadow:
+      0 0 8px rgba(255, 215, 0, 0.5),
+      0 0 20px rgba(255, 149, 0, 0.25);
+    filter: brightness(1.05);
+  }
+}
+
+@keyframes forge-power-up {
+  0% {
+    text-shadow:
+      0 0 10px rgba(255, 102, 0, 0.3);
+    transform: scale(1);
+    filter: brightness(1);
+  }
+
+  15% {
+    text-shadow:
+      0 0 20px rgba(255, 68, 0, 0.8),
+      0 0 60px rgba(255, 68, 0, 0.4);
+    transform: scale(1.02);
+    filter: brightness(1.2);
+  }
+
+  30% {
+    text-shadow:
+      0 0 30px rgba(255, 215, 0, 0.9),
+      0 0 80px rgba(255, 149, 0, 0.5),
+      0 0 120px rgba(255, 68, 0, 0.3);
+    transform: scale(1.06);
+    filter: brightness(1.4);
+  }
+
+  50% {
+    text-shadow:
+      0 0 40px rgba(255, 255, 255, 0.6),
+      0 0 80px rgba(255, 215, 0, 0.8),
+      0 0 140px rgba(255, 102, 0, 0.5),
+      0 0 200px rgba(255, 68, 0, 0.3);
+    transform: scale(1.1);
+    filter: brightness(1.6);
+  }
+
+  70% {
+    text-shadow:
+      0 0 30px rgba(255, 215, 0, 1),
+      0 0 70px rgba(255, 149, 0, 0.7),
+      0 0 130px rgba(255, 68, 0, 0.4),
+      0 0 180px rgba(255, 68, 0, 0.2);
+    transform: scale(1.08);
+    filter: brightness(1.3);
+  }
+
+  100% {
+    text-shadow:
+      0 0 20px rgba(255, 215, 0, 0.9),
+      0 0 60px rgba(255, 149, 0, 0.5),
+      0 0 100px rgba(255, 68, 0, 0.3),
+      0 0 160px rgba(255, 68, 0, 0.15);
+    transform: scale(1.06);
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes forge-sustain {
+
+  0%,
+  100% {
+    text-shadow:
+      0 0 20px rgba(255, 215, 0, 0.9),
+      0 0 60px rgba(255, 149, 0, 0.5),
+      0 0 100px rgba(255, 68, 0, 0.3);
+    filter: brightness(1.2);
+    transform: scale(1.06);
+  }
+
+  50% {
+    text-shadow:
+      0 0 30px rgba(255, 215, 0, 1),
+      0 0 80px rgba(255, 149, 0, 0.6),
+      0 0 130px rgba(255, 68, 0, 0.4),
+      0 0 180px rgba(255, 68, 0, 0.2);
+    filter: brightness(1.35);
+    transform: scale(1.08);
+  }
+}
+
+@keyframes rotate-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ember-pulse {
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes stone-crack-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+}
+
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+@keyframes lightning-flicker {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  10% {
+    opacity: 0.3;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  30% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 0.4;
+  }
+
+  80% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-out-down {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes progress-ember {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* =====================================================
+   App Layout
+   ===================================================== */
+
+.app-container {
+  width: 100%;
+  max-width: 1100px;
+  min-height: 100vh;
+  padding: var(--space-xl) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* =====================================================
+   Logo — Forged Viking Emblem
+   ===================================================== */
+
+.logo-container {
+  text-align: center;
+  padding: var(--space-3xl) 0 var(--space-xl);
+  position: relative;
+  z-index: 10;
+}
+
+.logo-text {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5.5vw, 3.5rem);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: var(--bronze-light);
+  animation: fire-pulse 4s ease-in-out infinite;
+  user-select: none;
+  position: relative;
+  /* Metallic text effect */
+  background: linear-gradient(180deg,
+      #ffd700 0%,
+      #daa06d 30%,
+      #cd7f32 50%,
+      #8a5620 70%,
+      #cd7f32 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
+}
+
+.logo-text.powered {
+  animation: forge-power-up 2.5s ease-out forwards, forge-sustain 2.5s ease-in-out 2.5s infinite;
+  -webkit-text-fill-color: unset;
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  color: #fff;
+}
+
+/* Decorative rune border under logo */
+.logo-rune-border {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.logo-line {
+  width: 100px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--bronze), transparent);
+}
+
+.logo-rune-symbol {
+  font-size: 0.8rem;
+  color: var(--bronze);
+  letter-spacing: 0.3em;
+  opacity: 0.6;
+}
+
+.logo-subtitle {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.5em;
+  color: var(--text-secondary);
+  margin-top: var(--space-sm);
+  text-transform: uppercase;
+}
+
+/* Connection indicator */
+.connection-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: var(--space-xs);
+  vertical-align: middle;
+}
+
+.connection-dot.online {
+  background: #66bb6a;
+  box-shadow: 0 0 6px #66bb6a;
+}
+
+.connection-dot.offline {
+  background: var(--fire-ember);
+  box-shadow: 0 0 6px var(--fire-ember);
+}
+
+/* =====================================================
+   Energy Lines (SVG overlay)
+   ===================================================== */
+
+.energy-lines-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.energy-line {
+  stroke-width: 2;
+  fill: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.energy-line.active {
+  opacity: 1;
+}
+
+/* =====================================================
+   Button Grid
+   ===================================================== */
+
+.button-grid {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: var(--space-xl) 0;
+  position: relative;
+  z-index: 10;
+}
+
+/* =====================================================
+   LED Button — Viking Rune Stone
+   ===================================================== */
+
+.led-button {
+  --btn-rune: var(--fire-core);
+  width: 95px;
+  height: 95px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--bronze-dark);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--font-heading);
+
+  /* Stone texture */
+  background:
+    linear-gradient(135deg,
+      rgba(58, 51, 45, 0.9) 0%,
+      rgba(42, 36, 32, 0.95) 40%,
+      rgba(26, 22, 19, 0.9) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.5);
+  color: var(--text-rune);
+}
+
+/* Per-button rune color */
+.led-button[data-index="0"] {
+  --btn-rune: var(--rune-1);
+}
+
+.led-button[data-index="1"] {
+  --btn-rune: var(--rune-2);
+}
+
+.led-button[data-index="2"] {
+  --btn-rune: var(--rune-3);
+}
+
+.led-button[data-index="3"] {
+  --btn-rune: var(--rune-4);
+}
+
+.led-button[data-index="4"] {
+  --btn-rune: var(--rune-5);
+}
+
+.led-button[data-index="5"] {
+  --btn-rune: var(--rune-6);
+}
+
+.led-button[data-index="6"] {
+  --btn-rune: var(--rune-7);
+}
+
+.led-button[data-index="7"] {
+  --btn-rune: var(--rune-8);
+}
+
+.led-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center,
+      color-mix(in srgb, var(--btn-rune) 10%, transparent) 0%,
+      transparent 70%);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.led-button:hover:not(:disabled)::before {
+  opacity: 1;
+}
+
+.led-button:hover:not(:disabled) {
+  border-color: var(--bronze);
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.4),
+    0 4px 16px rgba(255, 102, 0, 0.15),
+    0 0 20px color-mix(in srgb, var(--btn-rune) 12%, transparent);
+}
+
+.led-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.led-button:disabled {
+  cursor: not-allowed;
+}
+
+/* Rune icon */
+.led-btn-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--btn-rune);
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--btn-rune) 40%, transparent));
+}
+
+.led-btn-label {
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* --- Running state: fire glow --- */
+.led-button.running {
+  border-color: var(--btn-rune);
+  background:
+    radial-gradient(circle at center, color-mix(in srgb, var(--btn-rune) 12%, transparent) 0%, transparent 60%),
+    linear-gradient(135deg, rgba(58, 51, 45, 0.9) 0%, rgba(26, 22, 19, 0.9) 100%);
+  box-shadow:
+    0 0 15px color-mix(in srgb, var(--btn-rune) 30%, transparent),
+    0 0 40px color-mix(in srgb, var(--btn-rune) 15%, transparent),
+    inset 0 0 20px color-mix(in srgb, var(--btn-rune) 8%, transparent);
+  animation: ember-pulse 1.5s ease-in-out infinite;
+}
+
+.led-button.running .led-btn-icon {
+  animation: rune-glow-idle 1s ease-in-out infinite;
+}
+
+.led-button.running .led-btn-ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  border: 2px solid transparent;
+  border-top-color: var(--btn-rune);
+  border-right-color: color-mix(in srgb, var(--btn-rune) 30%, transparent);
+  animation: rotate-ring 1.2s linear infinite;
+}
+
+/* --- Completed state: cracked / burned stone --- */
+.led-button.completed {
+  border-color: rgba(138, 86, 32, 0.25);
+  background:
+    linear-gradient(135deg,
+      rgba(30, 25, 20, 0.95) 0%,
+      rgba(20, 16, 12, 0.98) 100%);
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.6),
+    0 1px 3px rgba(0, 0, 0, 0.4);
+  opacity: 0.55;
+}
+
+.led-button.completed .led-btn-icon {
+  color: var(--bronze-dark);
+  filter: none;
+}
+
+.led-btn-check {
+  font-size: 1.3rem;
+  color: var(--bronze-dark);
+  animation: stone-crack-in 0.5s ease-out;
+}
+
+/* --- Disabled (while another is running) --- */
+.led-button.disabled-other {
+  border-color: rgba(113, 112, 110, 0.15);
+  color: var(--text-dim);
+  background:
+    linear-gradient(135deg,
+      rgba(42, 36, 32, 0.5) 0%,
+      rgba(26, 22, 19, 0.6) 100%);
+  opacity: 0.4;
+}
+
+.led-button.disabled-other .led-btn-icon {
+  filter: grayscale(1) brightness(0.4);
+}
+
+/* =====================================================
+   Status Toast — Viking scroll style
+   ===================================================== */
+
+.status-toast-area {
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  min-height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  z-index: 10;
+  position: relative;
+}
+
+/* Progress bar — ember trail */
+.progress-bar-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(138, 86, 32, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.progress-bar-track.visible {
+  opacity: 1;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--fire-ember), var(--fire-core), var(--gold-rune), var(--fire-bright));
+  background-size: 200% 100%;
+  animation: progress-ember 2s linear infinite;
+  transition: width 0.4s ease;
+}
+
+/* Status text */
+.status-text {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.12em;
+  font-family: var(--font-heading);
+}
+
+.status-text.entering {
+  animation: fade-in-up 0.4s ease forwards;
+}
+
+.status-text.exiting {
+  animation: fade-out-down 0.4s ease forwards;
+}
+
+/* =====================================================
+   Responsive
+   ===================================================== */
+
+@media (max-width: 768px) {
+  .app-container {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .logo-text {
+    font-size: clamp(1.3rem, 7vw, 2.2rem);
+  }
+
+  .button-grid {
+    gap: var(--space-sm);
+  }
+
+  .led-button {
+    width: 76px;
+    height: 76px;
+  }
+
+  .led-btn-icon {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .led-button {
+    width: 66px;
+    height: 66px;
+    border-radius: var(--radius-sm);
+  }
+
+  .led-btn-label {
+    display: none;
+  }
+}
