@@ -27,6 +27,15 @@ export function connectMqtt() {
     client.on('connect', () => {
         console.log('[MQTT] Connected to broker');
         connectionListeners.forEach(fn => fn(true));
+
+        // Re-subscribe all existing topics on reconnect
+        // This is critical — without this, subscriptions are lost after a broker reconnect
+        for (const [topic, handlers] of messageHandlers.entries()) {
+            if (handlers.length > 0 && topic !== '#') {
+                client.subscribe(topic, { qos: 1 });
+                console.log(`[MQTT] Re-subscribed: ${topic}`);
+            }
+        }
     });
 
     client.on('reconnect', () => {
@@ -44,6 +53,7 @@ export function connectMqtt() {
 
     client.on('message', (topic, payload) => {
         const message = payload.toString();
+        console.log(`[MQTT] Received: ${topic} ->`, message);
         const handlers = messageHandlers.get(topic) || [];
         handlers.forEach(fn => fn(topic, message));
 

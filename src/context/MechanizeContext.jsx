@@ -89,10 +89,14 @@ function reducer(state, action) {
             // Restore from ESP32 retained state message
             const buttons = action.buttons || Array(8).fill('idle');
             const allComplete = buttons.every(b => b === 'completed');
+            // ESP32 sends activeButton as -1 when idle, convert to null for React
+            const activeBtn = (action.activeButton !== undefined && action.activeButton >= 0)
+                ? action.activeButton
+                : null;
             return {
                 ...state,
                 buttons,
-                activeButton: action.activeButton ?? null,
+                activeButton: activeBtn,
                 progress: action.progress ?? 0,
                 allComplete,
                 relayActive: action.relayActive ?? false,
