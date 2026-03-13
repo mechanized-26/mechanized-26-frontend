@@ -2,6 +2,14 @@
    MECHANIZED 26 — Viking / Norse Design System
    ===================================================== */
 
+@font-face {
+  font-family: 'CvltRvne';
+  src: url('/fonts/cvlt-rvne-regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Stone & Fire Colors */
   --bg-dark-stone: #0d0b0a;
@@ -49,7 +57,7 @@
   --space-3xl: 5rem;
 
   /* Typography */
-  --font-display: 'Cinzel Decorative', 'MedievalSharp', serif;
+  --font-display: 'CvltRvne', 'Cinzel Decorative', 'MedievalSharp', serif;
   --font-heading: 'Cinzel', serif;
   --font-body: 'Cinzel', serif;
 
